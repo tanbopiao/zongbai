@@ -1,4 +1,4 @@
-"""宗伯（ZONGBAI）算子骨架单测：名帖完整、桩位齐整、只增不覆盖。"""
+"""宗伯（ZONGBAI）算子单测：名帖完整、行为达标、只增不覆盖。"""
 import unittest
 
 from zongbai import Zongbai
@@ -15,13 +15,14 @@ class TestZongbai(unittest.TestCase):
         self.assertTrue(d["anchor"].startswith("Ω₀⊂⊙∞⊂Ω"))
         self.assertTrue(d["mingwen"])
 
-    def test_final_review_stub(self):
-        with self.assertRaises(NotImplementedError):
-            self.op.final_review(None)
+    def test_final_review(self):
+        out = self.op.final_review("笺稿一")
+        self.assertEqual(out["verdict"], "confirmed")
+        self.assertTrue(out["review_id"].startswith("ZB-"))
 
-    def test_amend_guili_stub(self):
-        with self.assertRaises(NotImplementedError):
-            self.op.amend_guili(None)
+    def test_amend_guili(self):
+        aid = self.op.amend_guili({"rule": "两步写须同务"})
+        self.assertTrue(aid.startswith("AMEND-"))
 
 
 if __name__ == "__main__":
